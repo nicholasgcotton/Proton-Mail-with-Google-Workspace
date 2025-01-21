@@ -10,10 +10,11 @@ Using Google Workspace as the advertised MX server, you can re-route specific ac
 ### Setup Overview
 1) Domain.com MX server is set to Google ([follow Google Workspace instructions to add a domain](https://support.google.com/a/answer/7502379?product_name=UnuFlow&hl=en&visit_id=638730817709681273-622307060&rd=1&src=supportwidget0&hl=en), or start from having a working domain at Workspace already set up and working with Gmail).
 2) Start the procees of [adding as domain to Proton Mail](https://proton.me/support/custom-domain), and create the user@domain.com acccount within Proton mail. You must add the account within Proton Mail before re-directing email from Google workspace or it will not be accepted.
-3) Note the MX server settings for Proton Mail (currently mail.protonmail.ch:25).
-4) In Google Workspace admin add the Proton Mail MX server under "Hosts".
-5) In Google Workspace admin add the route to Proton mail for the desired user@domain.com under the "default routing" rules, using the MX server set in the previous step.
-6) If you want to set a catch-all email to the user@domain.com account that you have moved to Proton Mail, you must set it within Google Workspace and NOT within Proton Mail, or else messages sent from Proton Mail to other @domain.com email address will not leave the Proton Mail server, and will just loop back to user@domain.com.
+3) Combine the DNS SPF record to allow both Proton Mail and Gmail servers <code>v=spf1 include:_spf.protonmail.ch ~all include:_spf.google.com ~all</code>.
+4) Note the MX server settings for Proton Mail (currently mail.protonmail.ch:25).
+5) In Google Workspace admin add the Proton Mail MX server under "Hosts".
+6) In Google Workspace admin add the route to Proton mail for the desired user@domain.com under the "default routing" rules, using the MX server set in the previous step.
+7) If you want to set a catch-all email to the user@domain.com account that you have moved to Proton Mail, you must set it within Google Workspace and NOT within Proton Mail, or else messages sent from Proton Mail to other @domain.com email address will not leave the Proton Mail server, and will just loop back to user@domain.com.
 
 
 ## Detailed Instructions
@@ -23,6 +24,8 @@ Using Google Workspace as the advertised MX server, you can re-route specific ac
 - Following all Proton Mail setup instructions for the DNS on domain.com EXCEPT for DMARC (will show unset) (still testing) and MX server (will show error state). Catch-all should not be set within Proton Mail, it can only be congfigured in Google Workspace settings under this setup, otherwise any email from the Proton user@doimain.com account will not be delivered to the Google MX servers. 
 
 - Instructions: [How to use a custom domain with Proton Mail](https://proton.me/support/custom-domain)
+
+- Combine the Google SPF and Proton Mail SPF records so that entry reads <code>v=spf1 include:_spf.protonmail.ch ~all include:_spf.google.com ~all</code>
 
 - Results should look like this:
 ![image showing proton mail configuration with all items except DMARC (unset) and MX server (error status) configured green](https://github.com/nicholasgcotton/Proton-Mail-with-Google-Workspace/blob/main/screenshots/Proton%20Mail%20Domain%20Settings.png)
